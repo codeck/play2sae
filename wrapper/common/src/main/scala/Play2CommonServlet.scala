@@ -42,7 +42,8 @@ abstract class GenericPlay2Servlet extends HttpServlet with ServletContextListen
     e.getServletContext.log("PlayServletWrapper > contextInitialized")
 
     // Init or get singleton
-    Play2WarServer(Some(e.getServletContext.getContextPath))
+	//if (play.api.Play.isDev(play.api.Play.current)) Play2WarServer(Some(e.getServletContext.getContextPath))
+	Play2WarServer()
   }
 
   override def contextDestroyed(e: ServletContextEvent): Unit = {
