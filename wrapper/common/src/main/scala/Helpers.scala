@@ -46,7 +46,7 @@ trait HTTPHelpers {
 
     new Headers {
 
-      protected def data: Seq[(String, Seq[String])] = {
+      protected val data: Seq[(String, Seq[String])] = {
         allHeaders.toSeq
       }
     }
