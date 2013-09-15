@@ -33,6 +33,8 @@ import play.core.ApplicationProvider
 import play.core.server.Server
 import play.core.server.ServerWithStop
 
+import scala.util.{Try, Success}
+
 object Play2WarServer {
 
   var playServer: Option[Play2WarServer] = None
@@ -110,7 +112,7 @@ private[servlet] class WarApplication(val mode: Mode.Mode, contextPath: Option[S
 
   Play.start(application)
 
-  def get: Either[Throwable, Application] = Right(application)
+  override def get: Try[Application] = Success(application)
   def path = applicationPath
 }
 
