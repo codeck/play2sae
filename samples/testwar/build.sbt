@@ -1,26 +1,18 @@
 import play.Project._
-import com.earldouglas.xsbtwebplugin.WarPlugin
+import org.codeck.play2sae.sbtPlugin
 
 name := "testwar"
 
 version := "1.0-SNAPSHOT"
 
+resolvers += Resolver.url("codeck repo", url("https://github.com/codeck/play2sae/raw/ivy-repo/"))(Resolver.ivyStylePatterns)
+
 libraryDependencies ++= Seq(
   jdbc,
   anorm,
-  cache,
-  "com.typesafe.play" %% "play" % "2.2-SNAPSHOT" exclude ("javax.servlet", "servlet-api"),
-  "javax.servlet" % "servlet-api" % "2.5"
-  )     
+  cache
+  ) 
 
 playScalaSettings
 
-WarPlugin.warSettings
-
-warPostProcess in Compile <<= (target) map {
-  (target) => { 
-    () =>
-    val webapp = target / "webapp"
-    IO.delete(webapp / "WEB-INF" / "lib" /"servlet-api-2.5.jar")
-  }
-}
+sbtPlugin.saeSettings

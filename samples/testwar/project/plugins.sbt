@@ -9,7 +9,7 @@ resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/release
 // Use the Play sbt plugin for Play projects
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.2-SNAPSHOT")
 
-//addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "0.6.0")
+resolvers += Resolver.url("codeck repo", url("https://github.com/codeck/play2sae/raw/ivy-repo/"))(Resolver.ivyStylePatterns)
 
-addSbtPlugin("com.earldouglas" % "xsbt-web-plugin" % "0.4.2")
+addSbtPlugin("org.codeck.play2sae" % "sbt-plugin" % "0.1")
 
