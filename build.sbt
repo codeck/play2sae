@@ -5,3 +5,4 @@ publishTo in ThisBuild := Some(Resolver.file("dest-repository", new File("target
 publishMavenStyle in ThisBuild := true
 
 organization in ThisBuild := "org.codeck.play2sae"
+
