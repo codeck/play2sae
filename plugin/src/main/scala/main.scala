@@ -1,13 +1,17 @@
 package org.codeck.play2sae
 
-import sbt._
+import sbt.{`package` => _, _}
+import sbt.Keys._
+import sbt.Keys.libraryDependencies
 
 import com.earldouglas.xsbtwebplugin.WarPlugin
+import com.earldouglas.xsbtwebplugin.PluginKeys.warPostProcess
 
 object sbtPlugin extends Plugin
 {
-    val saeSettings = Seq(
-	  libraryDependencies += "javax.servlet" % "servlet-api" % "2.5"
+    lazy val saeSettings = Seq(
+	  libraryDependencies += "org.codeck.play2sae" %% "play2-wrapper" % "0.1" excludeAll (
+		ExclusionRule(organization = "com.typesafe.play"))
     ) ++ WarPlugin.warSettings ++ Seq(
 	  warPostProcess in Compile <<= (target) map {
 		(target) => { 
@@ -18,12 +22,6 @@ object sbtPlugin extends Plugin
 	  }
 	)
 }
-
-
-
-
-
-
 
 
 
