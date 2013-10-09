@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
-	<info organisation="org.codeck.play2sae" module="play2sae_2.10" revision="0.1-SNAPSHOT" status="integration" publication="20131009205917">
+	<info organisation="org.codeck.play2sae" module="sbt-plugin" revision="0.2" status="release" publication="20131009205917" e:scalaVersion="2.10" e:sbtVersion="0.13">
 		<description>
-		play2sae
+		sbt-plugin
 		</description>
 	</info>
 	<configurations>
@@ -21,12 +21,14 @@
 		
 	</configurations>
 	<publications>
-		<artifact name="play2sae_2.10" type="jar" ext="jar" conf="compile"/>
-		<artifact name="play2sae_2.10" type="src" ext="jar" conf="sources" e:classifier="sources"/>
-		<artifact name="play2sae_2.10" type="doc" ext="jar" conf="docs" e:classifier="javadoc"/>
+		<artifact name="sbt-plugin" type="jar" ext="jar" conf="compile"/>
+		<artifact name="sbt-plugin" type="src" ext="jar" conf="sources" e:classifier="sources"/>
+		<artifact name="sbt-plugin" type="doc" ext="jar" conf="docs" e:classifier="javadoc"/>
 	</publications>
 	<dependencies>
 		
-		<dependency org="org.scala-lang" name="scala-library" rev="2.10.2" conf="compile->default(compile)"/>
+		<dependency org="org.scala-lang" name="scala-library" rev="2.10.2" conf="provided->default(compile)"/>
+		<dependency org="org.scala-sbt" name="sbt" rev="0.13.0" conf="provided->default(compile)"/>
+		<dependency org="com.earldouglas" name="xsbt-web-plugin" rev="0.4.2" conf="compile->default(compile)" e:scalaVersion="2.10" e:sbtVersion="0.13"/>
 	</dependencies>
 </ivy-module>
