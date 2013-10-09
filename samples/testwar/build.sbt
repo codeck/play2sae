@@ -3,7 +3,7 @@ import org.codeck.play2sae.sbtPlugin
 
 name := "testwar"
 
-version := "1.0-SNAPSHOT"
+version := "1.0"
 
 resolvers += Resolver.url("codeck repo", url("https://github.com/codeck/play2sae/raw/ivy-repo/"))(Resolver.ivyStylePatterns)
 
