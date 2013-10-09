@@ -66,6 +66,10 @@ trait HTTPHelpers {
       def get(name: String) = cookies.get(name)
 
       override def toString = cookies.toString
+
+      override def foreach[U](f: (play.api.mvc.Cookie) => U) {
+        cookies.values.foreach(f)
+      }
     }
   }
 
