@@ -8,8 +8,6 @@ import play.api.Play.current
 import anorm._
 import anorm.SqlParser._
 
-import scala.language.postfixOps
-
 case class Company(id: Pk[Long] = NotAssigned, name: String)
 case class Computer(id: Pk[Long] = NotAssigned, name: String, introduced: Option[Date], discontinued: Option[Date], companyId: Option[Long])
 
@@ -75,7 +73,7 @@ object Computer {
           select * from computer 
           left join company on computer.company_id = company.id
           where computer.name like {filter}
-          order by {orderBy} nulls last
+          order by {orderBy}
           limit {pageSize} offset {offset}
         """
       ).on(
