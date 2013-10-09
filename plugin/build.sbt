@@ -2,7 +2,7 @@ sbtPlugin := true
 
 name := "sbt-plugin"
 
-version := "0.1"
+version := "0.2"
 
 scalacOptions in Compile += "-deprecation"
 
