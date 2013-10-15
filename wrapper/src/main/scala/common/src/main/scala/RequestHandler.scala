@@ -281,11 +281,38 @@ abstract class Play2GenericServletRequestHandler(val servletRequest: HttpServlet
 
     }
 
+    def cleanFlashCookie(r: SimpleResult): SimpleResult = {
+      val header = r.header
+
+      val flashCookie = {
+        header.headers.get(HeaderNames.SET_COOKIE)
+          .map(Cookies.decode(_))
+          .flatMap(_.find(_.name == Flash.COOKIE_NAME)).orElse {
+            Option(requestHeader.flash).filterNot(_.isEmpty).map { _ =>
+              Flash.discard.toCookie
+            }
+          }
+      }
+
+      flashCookie.map { newCookie =>
+        r.withHeaders(HeaderNames.SET_COOKIE -> Cookies.merge(header.headers.get(HeaderNames.SET_COOKIE).getOrElse(""), Seq(newCookie)))
+      }.getOrElse(r)
+    }
+
     handler match {
 
       //execute normal action
       case Right((_, action: EssentialAction, app)) =>
-        handleAction(action, Some(app))
+        val a = EssentialAction { rh =>
+          Iteratee.flatten(action(rh).map {
+            case r: SimpleResult => cleanFlashCookie(r)
+          }.unflatten.extend1 {
+            case Redeemed(it) => it.it
+            case Thrown(e) => //Done(app.handleError(requestHeader, e), Input.Empty)
+			  Done(Results.InternalServerError, Input.Empty)
+          })
+        }
+        handleAction(a, Some(app))
 
       //handle all websocket request as bad, since websocket are not handled
       //handle bad websocket request
