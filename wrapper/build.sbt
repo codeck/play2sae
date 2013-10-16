@@ -1,7 +1,5 @@
 name := "play2-wrapper"
 
-version := "0.2"
-
 scalacOptions in Compile += "-deprecation"
 
 resolvers += "Typesafe repository" at "http://repo.typesafe.com/typesafe/releases/"
