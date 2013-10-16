@@ -44,7 +44,7 @@ private[servlet25] trait Helpers extends HTTPHelpers {
     val sc = new ServletCookie(pCookie.name, pCookie.value)
     pCookie.domain.map(sc.setDomain(_))
     pCookie.maxAge.map(sc.setMaxAge)
-    sc.setPath(pCookie.path)
+    //sc.setPath(pCookie.path)
     sc.setSecure(pCookie.secure)
     sc
   }
