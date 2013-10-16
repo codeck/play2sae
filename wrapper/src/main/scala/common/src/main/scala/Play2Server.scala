@@ -116,6 +116,8 @@ private[servlet] class WarApplication(val mode: Mode.Mode, contextPath: Option[S
   def path = applicationPath
 }
 
+import com.sina.sae.util.SaeUserInfo
+
 private[servlet] class DefaultWarApplication(
   override val path: File,
   override val mode: Mode.Mode,
@@ -126,7 +128,16 @@ private[servlet] class DefaultWarApplication(
                                         .map(cp => cp + (if (cp.endsWith("/")) "" else "/"))
                                         .map(cp => {
                                           Logger("play").info(s"Force Play 'application.context' to '$cp'")
-                                          Configuration.from(Map("application.context" -> cp))
+                                          Configuration.from(Map(
+											"sae.application.context" -> cp,
+											"db.default.driver" -> "com.mysql.jdbc.Driver",
+											"db.default.url" -> "mysql://%s:%s@w.rdc.sae.sina.com.cn:3307/app_%s".format(
+											  SaeUserInfo.getAccessKey(),
+											  SaeUserInfo.getSecretKey(),
+											  SaeUserInfo.getAppName()
+											),
+											"db.default.maxConnectionAge" -> 8*1000 //milliseconds
+											))
                                         }).getOrElse(Configuration.empty) ++ super.configuration
 
   override def classloader = Thread.currentThread.getContextClassLoader
