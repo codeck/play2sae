@@ -9,4 +9,4 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % System.getProperty("play.versi
 
 resolvers += Resolver.url("codeck repo", url("https://github.com/codeck/play2sae/raw/ivy-repo/"))(Resolver.ivyStylePatterns)
 
-addSbtPlugin("org.codeck.play2sae" % "sbt-plugin" % "0.2")
+addSbtPlugin("org.codeck.play2sae" % "sbt-plugin" % "0.3")
