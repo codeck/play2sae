@@ -13,7 +13,7 @@ HowTo
 ------
 
 ###Step 1: Start
-create a play application by *$play new YourSaeAppName*
+create a play application by *$play new YourSaeAppName* or skip this step when porting existing project.
 
 ###Step 2: Add plugin
 add the following lines to *'YourSaeAppName/project/plugins.sbt'*,
@@ -21,13 +21,13 @@ add the following lines to *'YourSaeAppName/project/plugins.sbt'*,
 ```scala
 resolvers += Resolver.url("codeck repo", url("https://github.com/codeck/play2sae/raw/ivy-repo/"))(Resolver.ivyStylePatterns)
 
-addSbtPlugin("org.codeck.play2sae" % "sbt-plugin" % "0.2")
+addSbtPlugin("org.codeck.play2sae" % "sbt-plugin" % "0.3")
 ```
 
 add the following lines to *'YourSaeAppName/build.sbt'*,
 
 ```scala
-import org.codeck.play2sae.sbtPlugin
+import org.codeck.play2sae.sbtPlugin //this line should be add on top
 
 resolvers += Resolver.url("codeck repo", url("https://github.com/codeck/play2sae/raw/ivy-repo/"))(Resolver.ivyStylePatterns)
 
@@ -35,36 +35,23 @@ sbtPlugin.saeSettings
 
 ```
 
-###Step 3: Add web.xml
-create *'YourSaeAppName/app/webapp/WEB-INF/web.xml'* with the following content,
+####Step 2.1: Add customized web.xml (Optional)
+play2sae will create a webxml when packaging.
 
-```xml
-<?xml version="1.0" ?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-        version="2.5">
+create *'YourSaeAppName/app/webapp/WEB-INF/web.xml'* when you need a customized web.xml
 
-  <display-name>YourSaeAppName</display-name>
+####Step 2.2: Add customized database setting (Optional)
+play2sae will create default db with info from [SaeUserInfo](http://sae4java.sinaapp.com/doc/com/sina/sae/util/SaeUserInfo.html)
 
-  <listener>
-      <listener-class>play.core.server.servlet25.Play2Servlet</listener-class>
-  </listener>
+edit *'YourSaeAppName/conf/application.conf'* when you need a customized web.xml (here is a [template](https://github.com/codeck/play2sae/blob/master/samples/testwar/app/webapp/WEB-INF/web.xml))
 
-  <servlet>
-    <servlet-name>play</servlet-name>
-    <servlet-class>play.core.server.servlet25.Play2Servlet</servlet-class>
-  </servlet>
+####Step 2.3: Add SAE sdks (Optional)
+extract [sae-1.1.0-all.zip](http://sae4java.sinaapp.com/lib/sae-1.1.0-all.zip) to *'YourSaeAppName/lib'" when you need SAE sdks.
 
-  <servlet-mapping>
-    <servlet-name>play</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
+play2sae will automatically strip sdk jars from final .war file.
 
-</web-app>
-```
 
-###Step 4: **package** 
+###Step 3: **package**
 **"package"** command in Play console are ready to package .war file for SAE now.
 
 Samples
