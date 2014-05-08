@@ -6,7 +6,7 @@ sbt plugin for deploying play2.2 applications to Sina App Engine (with jetty7.4.
 Requirements
 ------
 * scala 2.10+
-* Play 2.2.0
+* Play 2.2.3
 * sbt 0.13+
 
 HowTo
@@ -21,7 +21,7 @@ add the following lines to *'YourSaeAppName/project/plugins.sbt'*,
 ```scala
 resolvers += Resolver.url("codeck repo", url("https://github.com/codeck/play2sae/raw/ivy-repo/"))(Resolver.ivyStylePatterns)
 
-addSbtPlugin("org.codeck.play2sae" % "sbt-plugin" % "0.3")
+addSbtPlugin("org.codeck.play2sae" % "sbt-plugin" % "0.3.3")
 ```
 
 add the following lines to *'YourSaeAppName/build.sbt'*,
