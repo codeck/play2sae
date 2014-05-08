@@ -108,7 +108,7 @@ private[servlet] class WarApplication(val mode: Mode.Mode, contextPath: Option[S
   // Because of https://play.lighthouseapp.com/projects/82401-play-20/tickets/275, reconfigure Logger
   // without substitutions
   Logger.configure(Map("application.home" -> path.getAbsolutePath), Map.empty,
-    mode)
+				   mode)
 
   Play.start(application)
 
@@ -125,20 +125,24 @@ private[servlet] class DefaultWarApplication(
 ) extends Application with WithDefaultConfiguration with WithDefaultGlobal with WithDefaultPlugins {
 
   private lazy val warConfiguration = contextPath.filterNot(_.isEmpty)
-                                        .map(cp => cp + (if (cp.endsWith("/")) "" else "/"))
-                                        .map(cp => {
-                                          Logger("play").info(s"Force Play 'application.context' to '$cp'")
-                                          Configuration.from(Map(
-											"sae.application.context" -> cp,
-											"db.default.driver" -> "com.mysql.jdbc.Driver",
-											"db.default.url" -> "mysql://%s:%s@w.rdc.sae.sina.com.cn:3307/app_%s".format(
-											  SaeUserInfo.getAccessKey(),
-											  SaeUserInfo.getSecretKey(),
-											  SaeUserInfo.getAppName()
-											),
-											"db.default.maxConnectionAge" -> 8*1000 //milliseconds
-											))
-                                        }).getOrElse(Configuration.empty) ++ super.configuration
+    .map(cp => cp + (if (cp.endsWith("/")) "" else "/"))
+    .map(cp => {
+      //Logger("play").info(s"Force Play 'application.context' to '$cp'") //for local dev mode only
+      Configuration.from(Map(
+		// "application.context" -> cp, //for local dev mode only
+		"sae.application.context" -> cp
+	  ) ++
+						 super.configuration.getConfig("db").map(_.subKeys).getOrElse(Set("default")).toSeq.flatMap(db => Seq(
+						   "db."+db+".driver" -> "com.mysql.jdbc.Driver",
+						   "db."+db+".url" -> "mysql://%s:%s@w.rdc.sae.sina.com.cn:3307/app_%s".format(
+						 	 SaeUserInfo.getAccessKey(),
+						 	 SaeUserInfo.getSecretKey(),
+						 	 SaeUserInfo.getAppName()
+						   ),
+						   "db."+db+".maxConnectionAge" -> 8*1000 //milliseconds
+						 )).toMap
+					   )
+    }).getOrElse(Configuration.empty) ++ super.configuration
 
   override def classloader = Thread.currentThread.getContextClassLoader
   override def sources = None
