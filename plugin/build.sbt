@@ -6,7 +6,7 @@ name := "sbt-plugin"
 
 scalacOptions in Compile += "-deprecation"
 
-libraryDependencies += "com.earldouglas" % "xsbt-web-plugin" % "0.4.2" extra ("scalaVersion" -> CrossVersion.binaryScalaVersion("2.10.2"),  "sbtVersion" -> "0.13")
+libraryDependencies += "com.earldouglas" % "xsbt-web-plugin" % "0.7.0" extra ("scalaVersion" -> CrossVersion.binaryScalaVersion("2.10.4"),  "sbtVersion" -> "0.13")
 
 buildInfoSettings
 

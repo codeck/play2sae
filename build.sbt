@@ -1,6 +1,6 @@
-version in ThisBuild := "0.3"
+version in ThisBuild := "0.3.3"
 
-scalaVersion in ThisBuild := "2.10.2"
+scalaVersion in ThisBuild := "2.10.4"
 
 publishTo in ThisBuild := Some(Resolver.file("dest-repository", file("target/local-repo"))(Resolver.ivyStylePatterns))
 
