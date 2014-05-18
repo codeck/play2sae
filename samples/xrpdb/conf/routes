@@ -1,0 +1,12 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET		/page/*page					controllers.Application.seedpage(page:String)
+
+# Home page
+GET     /                           controllers.Application.seedpage(page:String ?= "0")
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+

@@ -1,0 +1,82 @@
+@(message: String, accts: Seq[(String, String)])(currpage:String, maxpage:String, prevpage:Option[String], nextpage:Option[String])
+
+@pagenav() = {
+<script>
+$(function() {
+$("#prevpage").click(function(){
+window.location = "@{prevpage.map(routes.Application.seedpage(_)).getOrElse("#")}"
+})
+$("#nextpage").click(function(){
+window.location = "@{nextpage.map(routes.Application.seedpage(_)).getOrElse("#")}"
+})
+});
+</script>
+<div class="input-group">
+  <span class="input-group-btn">
+	<button id="prevpage" type="button" class="btn btn-default"><a href=@{prevpage.map(routes.Application.seedpage(_)).getOrElse("#")}> &laquo;前页</a></button>
+	<button id="nextpage" type="button" class="btn btn-default"><a href=@{nextpage.map(routes.Application.seedpage(_)).getOrElse("#")}>后页&raquo; </a></button>
+  </span>
+</div>
+}
+
+@pagejmp() = {
+<script>
+$(function() {
+$("#pagejmp button").click(function(){
+window.location = "/page/"+$("#pagejmp input").val()
+})
+});
+</script>
+<div class="panel panel-default">
+  <div class="panel-heading">当前页:@currpage</div>
+  <div class="panel-body">
+	<div id="pagejmp" class="input-group">
+      <input type="text" class="form-control">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button">跳页!</button>
+      </span>
+	</div>
+  </div>
+</div>
+}
+
+@seedsearch() = {
+<div class="panel panel-danger">
+  <div class="panel-heading">在此搜索框输入秘钥有帐号泄露危险，请谨慎尝试！</div>
+  <div class="panel-body">
+	<div class="input-group">
+      <input type="text" class="form-control">
+      <span class="input-group-btn">
+        <button class="btn btn-danger disabled" type="button">密钥搜索!</button>
+      </span>
+	</div>
+  </div>
+</div>
+}
+
+@saemain("Ripple私钥数据库") {
+<div class="container">
+  <div>
+	<h1> Ripple私钥数据库(全) </h>
+    <h3>共@{maxpage}页</h3>
+    <span> @message </span>
+  </div>
+
+  <div class="row"><div class="col-md-5"> @seedsearch() </div> <div class="col-md-5">@pagejmp()</div></div>
+  <div class="row"><div class="col-md-10"> <div class="col-md-2 pull-right"> @pagenav() </div> </div></div>
+
+<div class="row">
+<div class="col-md-10">
+<table class="table table-condensed">
+<thead><tr><th></th><th>钱包地址(Public Address)</th><th>帐号密钥(Secret Key)</th></tr></thead><tbody>
+@for(acct <- accts) {
+<tr><td> &gt; </td>
+<td><span title="1">@acct._2 </span></td>
+<td>@acct._1</td>
+}
+</table>
+</div>
+</div>
+
+</div>
+}
